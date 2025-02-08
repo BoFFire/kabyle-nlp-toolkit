@@ -12,6 +12,20 @@ python3 -m venv env
 source env/bin/activate
 ```
 
+### Getting Started
+
+Clone the repository using:
+
+```bash
+git clone https://github.com/BoFFire/kabyle-nlp-toolkit.git
+```
+
+Go to :
+
+```bash
+cd kabyle-nlp-toolkit
+```
+
 ### Install dependencies from requirements.txt
   
 ```bash
