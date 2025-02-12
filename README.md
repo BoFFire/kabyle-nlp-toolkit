@@ -46,9 +46,11 @@ corpus/
 ├── eng_kab_sentence_pairs.tsv
 ├── en.txt
 ├── kab.txt
-└── kab_fixed.txt
+├── kab_fixed.txt
+└── kab_stopwords.txt
 ```
 - `corpus/eng_kab_sentence_pairs.tsv` : TSV file containing bilingual sentence pairs
 - `corpus/en.txt`   : File with English sentences only
 - `corpus/kab.txt`  : File with original Kabyle sentences
 - `corpus/kab_fixed.txt` : File with fixed Kabyle sentences (non-standard characters replaced)
+- `kab_stopwords.txt` : File with a list of kabyle stopwords candidates.
