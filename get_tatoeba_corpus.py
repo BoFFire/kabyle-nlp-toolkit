@@ -227,9 +227,16 @@ def main():
     
     # Création de la liste de stopwords à partir du fichier corrigé kab_fixed.txt
     with yaspin(text="Création de la liste de stopwords en kabyle...", color="cyan") as spinner:
-        stopwords = kab_stopwords.create_stopwords(KAB_FIXED, STOPWORDS_OUTPUT, threshold=1000)
+        stopwords = kab_stopwords.create_stopwords(
+            KAB_FIXED,
+            STOPWORDS_OUTPUT,
+            rel_cutoff=0.005,   # 0.5% cutoff
+            min_count=10,       # ignore words with < 10 occurrences
+            max_words=500       # keep only the 500 most frequent stopwords
+        )
         spinner.ok("✔")
         print(f"Liste de stopwords créée avec {len(stopwords)} mots et sauvegardée dans {STOPWORDS_OUTPUT}.")
+
     
     print("Toutes les étapes sont terminées.")
 
