@@ -23,7 +23,6 @@ from yaspin import yaspin
 import fixer  # Module de correction
 import kab_stopwords  # Notre module pour créer la liste de stopwords
 import nltk
-from collections import Counter
 
 # Téléchargement des ressources NLTK
 nltk.download('punkt')
@@ -165,6 +164,13 @@ def main():
     parser.add_argument("--source_lang", required=True, help="Code ISO pour la langue source (ex: eng)")
     parser.add_argument("--target_lang", required=True, help="Code ISO pour la langue cible (ex: kab)")
     parser.add_argument("--output_dir", default="corpus", help="Répertoire de sortie (défaut: corpus)")
+    parser.add_argument("--exclude_file", help="Fichier contenant les mots à exclure (un par ligne)")
+    parser.add_argument("--rel_cutoff", type=float, default=0.005,
+                        help="Seuil de fréquence relative pour les stopwords (défaut: 0.005 = 0.5%%)")
+    parser.add_argument("--min_count", type=int, default=5,
+                        help="Seuil de fréquence absolue (défaut: 5)")
+    parser.add_argument("--max_words", type=int, default=500,
+                        help="Nombre maximum de stopwords à conserver (défaut: 500)")
     args = parser.parse_args()
     
     source_lang = args.source_lang
@@ -230,13 +236,13 @@ def main():
         stopwords = kab_stopwords.create_stopwords(
             KAB_FIXED,
             STOPWORDS_OUTPUT,
-            rel_cutoff=0.005,   # 0.5% cutoff
-            min_count=10,       # ignore words with < 10 occurrences
-            max_words=500       # keep only the 500 most frequent stopwords
+            rel_cutoff=args.rel_cutoff,
+            min_count=args.min_count,
+            max_words=args.max_words,
+            exclude_file=args.exclude_file
         )
         spinner.ok("✔")
         print(f"Liste de stopwords créée avec {len(stopwords)} mots et sauvegardée dans {STOPWORDS_OUTPUT}.")
-
     
     print("Toutes les étapes sont terminées.")
 
