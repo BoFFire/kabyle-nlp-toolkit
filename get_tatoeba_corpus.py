@@ -233,17 +233,23 @@ def main():
     
     # Création de la liste de stopwords à partir du fichier corrigé kab_fixed.txt
     with yaspin(text="Création de la liste de stopwords en kabyle...", color="cyan") as spinner:
+        # ---- 1.  build the exclude set ------------------------------------------
+        exclude_set = set()
+        if args.exclude_file and os.path.isfile(args.exclude_file):
+            with open(args.exclude_file, encoding="utf-8") as f:
+                exclude_set = {line.strip() for line in f if line.strip()}
+        # ---- 2.  generate stopwords ---------------------------------------------
         stopwords = kab_stopwords.create_stopwords(
             KAB_FIXED,
             STOPWORDS_OUTPUT,
             rel_cutoff=args.rel_cutoff,
             min_count=args.min_count,
             max_words=args.max_words,
-            exclude_file=args.exclude_file
+            exclude=exclude_set          # <-- pass the set, not the file name
         )
         spinner.ok("✔")
         print(f"Liste de stopwords créée avec {len(stopwords)} mots et sauvegardée dans {STOPWORDS_OUTPUT}.")
-    
+
     print("Toutes les étapes sont terminées.")
 
 if __name__ == "__main__":
